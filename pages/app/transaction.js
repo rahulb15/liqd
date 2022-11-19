@@ -1,0 +1,447 @@
+import { Fragment, useContext, useEffect, useState } from "react";
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
+import Head from "next/head";
+import Image from "next/image";
+import Loader from "../../components/Loader";
+import { UserContext } from "../../contexts/UserContext";
+import { req, formatDate } from "../../Utils";
+import { transaction_types } from "../../Utils/constants";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import TextField from "@mui/material/TextField";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { te } from "date-fns/locale";
+
+export default function Transactions(props) {
+  const [User, setUser] = useContext(UserContext);
+  const [loading, setLoading] = useState(true);
+  const [coins, setCoins] = useState([]);
+  const [fromDate, setFromDate] = useState(new Date());
+  const [toDate, setToDate] = useState(
+    new Date(fromDate.getTime() + 3600 * 24 * 1000)
+  );
+
+  const [data, setData] = useState([]);
+  const [filtered, setFiltered] = useState([]);
+  const [coinSelected, setCoinSelected] = useState(-1);
+  const [transactionSelected, setTransactionSelected] = useState(-1);
+  // const [filteredCoins, setFilteredCoins] = useState([]);
+  // const [filteredTransactions, setFilteredTransactions] = useState([]);
+
+  async function loadTransactions() {
+    let resp = await req("transactions");
+    if (resp) {
+      setData(resp);
+      setFiltered(resp);
+    } else {
+      console.log("failed loading transactions");
+    }
+  }
+  console.log("transactions in data : ", data);
+  // console.log('transactions in filtered : ' , filtered);
+
+  async function fetchCoins() {
+    let resp = await req("coins");
+    if (resp) {
+      setCoins(resp);
+    } else {
+      console.log("failed loading transactions");
+    }
+  }
+  // console.log('data in coins : ' , coins);
+  useEffect(() => {
+    fetchCoins().then(() => console.log("done loading coins"));
+    loadTransactions().then(() => console.log("done loading transactions"));
+    filterByDate();
+  }, [User]);
+
+  const handleFilter = (type = "", assets = "") => {
+    console.log("transaction selected is ", transactionSelected);
+    let newData = [];
+    if (type === "filterByTransaction") {
+      if (assets.target.value == -1) {
+        setTransactionSelected(assets.target.value);
+        if (coinSelected == -1) {
+          newData = data;
+        }
+      }
+      if (coinSelected != -1) {
+        console.log(" coinSelected ");
+        assets.target.value != -1
+          ? (newData = data.filter(
+              (x) =>
+                x.coinData.symbol == coinSelected &&
+                x.t_type == assets.target.value
+            ))
+          : (newData = data.filter((x) => x.coinData.symbol == coinSelected));
+      } else {
+        assets.target.value != -1 ? (
+          newData = data.filter((x) => x.t_type == assets.target.value)
+        ) : (
+          newData = data
+        )
+      }
+      setTransactionSelected(assets.target.value);
+    }
+    if (type === "filterByCoin") {
+      if (assets.target.value == -1) {
+        setCoinSelected(assets.target.value);
+        if (transactionSelected == -1) {
+          newData = data;
+        }
+      }
+      if (transactionSelected != -1) {
+        console.log(" transactionSelected ");
+        assets.target.value != -1
+          ? (newData = data.filter(
+              (x) =>
+                x.t_type == transactionSelected &&
+                x.coinData.symbol == assets.target.value
+            ))
+          : (newData = data.filter((x) => x.t_type == transactionSelected));
+      } else {
+        console.log(" transaction not Selected ");
+        assets.target.value != -1 ? (
+          newData = data.filter((x) => x.coinData.symbol == assets.target.value)
+        ) : ( newData = data)
+      }
+      setCoinSelected(assets.target.value);
+    }
+    console.log(newData);
+    setFiltered(newData);
+  };
+
+  function filterByDate(fromD = null, toD = null) {
+    let from = fromDate;
+    let to = toDate;
+    if (fromD) {
+      from = fromD;
+    }
+    if (toD) {
+      to = toD;
+    }
+    console.log(to);
+    let temp = data.filter((e) => {
+      let date = new Date(e.date);
+      date.setHours(0, 0, 0, 0);
+      from.setHours(0, 0, 0, 0);
+      to.setHours(0, 0, 0, 0);
+      return date >= from && date < to;
+    });
+    console.log(temp);
+    setFiltered(temp);
+    // setCoinSelected('');
+    // setTransactionSelected(-1);
+  }
+
+  function filterById(e) {
+    let value = e.target.value;
+    console.log(value);
+    if (value.length == 0) {
+      setFiltered(data);
+    } else {
+      let temp = data.filter((e) => {
+        return e.idd.includes(value);
+      });
+      console.log(temp);
+      setFiltered(temp);
+    }
+  }
+
+  function handleDateChange(t, side) {
+    console.log(t);
+    switch (side) {
+      case "from":
+        setFromDate(t);
+        filterByDate(t, null);
+        break;
+      case "to":
+        setToDate(t);
+        filterByDate(null, t);
+        break;
+    }
+  }
+  function resetFilter() {
+    let date = new Date();
+    setFromDate(date);
+    let toDate = new Date();
+    toDate.setDate(date.getDate() + 1);
+    setToDate(toDate);
+    console.log("to date", toDate, " from date ", date);
+    setTransactionSelected(-1);
+    setCoinSelected(-1);
+    setFiltered(data);
+    document.getElementById("filterById").value = "";
+  }
+  const getCard = (data) => {
+    if (data.t_type == "deposit") {
+      return "bg-primary";
+    } else if (data.t_type == "withdraw") {
+      return "bg-success";
+    } else if (data.t_type == "exchange") {
+      return "bg-warning";
+    } else {
+      return "bg-info";
+    }
+  };
+
+  const html = (
+    <Fragment>
+      <Head>
+        <meta charSet="utf-8" />
+        <meta
+          name="viewport"
+          content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,shrink-to-fit=no"
+        />
+        <link rel="manifest" href="/assets/meta/manifest.json" />
+        <link rel="shortcut icon" href="/assets/images/LIQD_logo_Square.png" />
+
+        <title>Transactions</title>
+      </Head>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <div id="liqd-platform" className="application">
+          <Header location="transaction" setLoading={setLoading} />
+
+          <main>
+            <section className="TransactionsPage custom">
+              <aside>
+                <div className="Filter">
+                  <div className="card">
+                    <div className="header mb-l">
+                      <h4>Filters</h4>
+                      <button className="Button primary" onClick={resetFilter}>
+                        Reset
+                      </button>
+                    </div>
+                    <fieldset>
+                      <label>Date Range</label>
+                      <div className="DateRangeBox pt-10">
+                        <div className="DateRangePicker DateRangePicker_1">
+                          <div>
+                            <div className="DateRangePickerInput DateRangePickerInput_1">
+                              <MobileDatePicker
+                                label="From Date"
+                                inputFormat="dd/MM/yyyy"
+                                value={fromDate}
+                                onChange={(v) => handleDateChange(v, "from")}
+                                renderInput={(params) => (
+                                  <TextField {...params} />
+                                )}
+                              />
+                              <div
+                                className="DateRangePickerInput_arrow DateRangePickerInput_arrow_1"
+                                aria-hidden="true"
+                                role="presentation"
+                              >
+                                -
+                              </div>
+                              <MobileDatePicker
+                                label="To Date"
+                                inputFormat="dd/MM/yyyy"
+                                value={toDate}
+                                onChange={(v) => handleDateChange(v, "to")}
+                                renderInput={(params) => (
+                                  <TextField {...params} />
+                                )}
+                              />
+                              <button
+                                className="DateRangePickerInput_calendarIcon DateRangePickerInput_calendarIcon_1"
+                                type="button"
+                                aria-label="Interact with the calendar and add the check-in date for your trip."
+                              >
+                                <svg
+                                  className="DateRangePickerInput_calendarIcon_svg DateRangePickerInput_calendarIcon_svg_1"
+                                  focusable="false"
+                                  viewBox="0 0 1393.1 1500"
+                                >
+                                  <path d="m107 1393h241v-241h-241zm295 0h268v-241h-268zm-295-295h241v-268h-241zm295 0h268v-268h-268zm-295-321h241v-241h-241zm616 616h268v-241h-268zm-321-616h268v-241h-268zm643 616h241v-241h-241zm-322-295h268v-268h-268zm-294-723v-241c0-7-3-14-8-19-6-5-12-8-19-8h-54c-7 0-13 3-19 8-5 5-8 12-8 19v241c0 7 3 14 8 19 6 5 12 8 19 8h54c7 0 13-3 19-8 5-5 8-12 8-19zm616 723h241v-268h-241zm-322-321h268v-241h-268zm322 0h241v-241h-241zm27-402v-241c0-7-3-14-8-19-6-5-12-8-19-8h-54c-7 0-13 3-19 8-5 5-8 12-8 19v241c0 7 3 14 8 19 6 5 12 8 19 8h54c7 0 13-3 19-8 5-5 8-12 8-19zm321-54v1072c0 29-11 54-32 75s-46 32-75 32h-1179c-29 0-54-11-75-32s-32-46-32-75v-1072c0-29 11-54 32-75s46-32 75-32h107v-80c0-37 13-68 40-95s57-39 94-39h54c37 0 68 13 95 39 26 26 39 58 39 95v80h321v-80c0-37 13-69 40-95 26-26 57-39 94-39h54c37 0 68 13 94 39s40 58 40 95v80h107c29 0 54 11 75 32s32 46 32 75z" />
+                                </svg>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </fieldset>
+                    <fieldset>
+                      <label>Transaction Type</label>
+                      <div className="SelectBox filter">
+                        <span>
+                          <label>
+                            {transactionSelected == -1
+                              ? " All Assets"
+                              : transactionSelected}
+                          </label>
+                          <i className="fa fa-chevron-down" />
+                          <select
+                            onChange={(e) =>
+                              handleFilter("filterByTransaction", e)
+                            }
+                            id="filterByTransaction"
+                          >
+                            <option key={-1} value={-1}>
+                              All Types
+                            </option>
+                            {transaction_types.map((e, i) => (
+                              <option key={i} value={e}>
+                                {e}
+                              </option>
+                            ))}
+                          </select>
+                        </span>
+                      </div>
+                    </fieldset>
+                    <fieldset>
+                      <label>Asset</label>
+                      <div className="SelectBox filter">
+                        <span>
+                          <label>
+                            {coinSelected != -1 ? coinSelected : "All Assets"}
+                          </label>
+                          <i className="fa fa-chevron-down" />
+                          <select
+                            onChange={(e) => handleFilter("filterByCoin", e)}
+                            id="filterByCoin"
+                          >
+                            <option key={-1} value={-1}>
+                              AllAssets
+                            </option>
+                            {coins.map((e, i) => (
+                              <option key={i} value={e.symbol}>
+                                {e.symbol}
+                              </option>
+                            ))}
+                          </select>
+                        </span>
+                      </div>
+                    </fieldset>
+                    <div className="w-full mt-6">
+                      <input
+                        type="text"
+                        placeholder="Filter by Id"
+                        className="border-2 w-full p-2 rounded-[5px]"
+                        onChange={filterById}
+                        id="filterById"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </aside>
+              <div>
+                <div className="top-container">
+                  <h3>Transaction History</h3>
+                  {/* <div className="sorting">
+                    <label>
+                      <i className="fa fa-sort-amount-down" />
+                      Sort by
+                    </label>
+                    <div className="SelectBox">
+                      <span aria-expanded="false">
+                        <label className="hv">
+                          <div className="selected">Newest to Oldest</div>
+                        </label>
+                        <i className="fa fa-chevron-down" />
+                      </span>
+                    </div>
+                  </div> */}
+                </div>
+
+                {filtered && filtered?.length == 0 && (
+                  <div className="Empty">
+                    <Image
+                      src={"/assets/icons/no-transaction.svg"}
+                      height={200}
+                      width={200}
+                      style={{ opacity: 1, transform: "scale(1)" }}
+                    />
+
+                    <h6 className="semi-bold special">No transactions</h6>
+                  </div>
+                )}
+
+                {filtered && filtered?.length > 0 && (
+                  <>
+                    <div className="px-5">
+                      {filtered.map((e, i) => {
+                        return (
+                          <div
+                            key={i}
+                            className="card card-trans border-primary mb-3"
+                          >
+                            <div
+                              className={"card-header text-white " + getCard(e)}
+                            >
+                              <span className="capitalize">{e.t_type}</span>
+                              <span className="float-right text-white bdb fs-4 text-uppercase">
+                                {e.user_info ? e.user_info.username : ""}
+                                {e.coinData ? " : " + e.coinData.symbol : ""}
+                              </span>
+                            </div>
+                            <div className="card-body">
+                              <h5 className="card-title">{e.idd}</h5>
+                              <p className="card-text">
+                                <span className="text-primary">
+                                  {" "}
+                                  {e.message}
+                                </span>
+                              </p>
+                              <div>
+                                <span className="badge bg-success text-wrap capitalize">
+                                  {e.status}
+                                </span>
+                                <span className="float-right">
+                                  {formatDate(new Date(e.date))}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </>
+                )}
+              </div>
+            </section>
+            <Footer />
+          </main>
+        </div>
+      </LocalizationProvider>
+    </Fragment>
+  );
+
+  return loading ? <Loader setLoading={setLoading} /> : html;
+}
+
+{
+  /* <div
+key={i}
+style={{ display: "flex", flexDirection: "column" }}
+className=" w-3/5 p-4 my-4 rounded-[5px] neum transition-transform hover:scale-105 "
+>
+<div className="w-full flex items-center justify-between p-1">
+  <h3 className="font-bold text-[#1e4dd8]">
+    {" "}
+    {e.t_type}{" "}
+    {e.coinData ? ": " + e.coinData.symbol : ""}
+  </h3>
+  <span className="text-md">{e.idd} </span>
+</div>
+
+<p>{e.message}</p>
+<p>
+  <span className="font-bold">Status :</span>{" "}
+  <span className="text-[#1e4dd8]">{e.status}</span>
+</p>
+{e.reason.length > 0 && (
+  <p>
+    <span className="font-bold">Reason :</span>{" "}
+    <span className="text-[#1e4dd8]">{e.reason}</span>
+  </p>
+)}
+
+<span className="w-fit self-end">
+  {formatDate(new Date(e.date))}
+</span>
+</div> */
+}

@@ -1,0 +1,87 @@
+.Portal .FormLogin{
+    background: "#345DA7";
+    color: "#fff";
+    padding: "11px";
+    border-radius: "4px";
+    box-shadow: "0px 2px 3px 0 #3a559f";
+    width: "44%";
+    text-align: "center";
+    margin-left: "10px";
+}
+.custom_mui_box {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 30% !important;
+    height: 40% !important;
+    background-color: white !important;
+    box-shadow: rgb(0 0 0 / 20%) 0px 11px 15px -7px, rgb(0 0 0 / 14%) 0px 24px 38px 3px, rgb(0 0 0 / 12%) 0px 9px 46px 8px !important;
+    border-radius: 16px !important;
+    padding: 20px !important;
+    overflow: auto !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none !important;
+}
+.facebook_login{
+    background: rgb(52, 93, 167);
+    color: rgb(255, 255, 255);
+    padding: 11px;
+    border-radius: 4px;
+    box-shadow: rgb(58 85 159) 0px 2px 3px 0px;
+    width: 180px;
+    text-align: center;
+    margin-left: 10px;
+}
+@media (max-width:992px) {
+    .custom_mui_box{
+        width: 45% !important;
+    }
+}
+@media (max-width:767px){
+    .custom_mui_box {
+        width: 70% !important;
+    }
+    .Modal.FormLogin,.Modal.FormRegister {
+        width: 75% !important;
+        left: 37% !important;
+        transform: translateX(-50%) !important;
+    }
+}
+@media (max-width:736px){
+    .Modal.FormLogin ,.Modal.FormRegister{
+        width: 82% !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+    }
+}
+@media (max-width:576px){
+    .custom_mui_box {
+        width: 90% !important;
+    }
+    .Modal.FormLogin, .Modal.FormRegister {
+        width: 97% !important;
+        min-height: 90vh !important;
+        height: auto !important;
+        margin: 5px auto !important;
+        top: 0 !important;
+        transform: translate(0, 0) !important;
+        left: 0 !important;
+    }
+    .Portal .FormLogin main , .Modal.FormRegister  main{
+        max-height: 100% !important;
+        height: max-content !important;
+    }
+}
+@media (max-width : 420px){
+    .facebook_login {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+    .login_wrapper {
+        flex-direction: column;
+        margin-top: 4px !important;
+    }
+}

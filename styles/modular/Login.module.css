@@ -1,0 +1,13 @@
+button.facebook_login {
+    background: #3A559F;
+    color: #fff;
+    padding: 11px;
+    border-radius: 4px;
+    box-shadow: 0px 2px 3px 0 #3a559f;
+}
+@media (max-width:992px) {
+    .custom_mui_box{
+        width: 45% !important;
+    }
+    
+}

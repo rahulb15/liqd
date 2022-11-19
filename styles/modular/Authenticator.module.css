@@ -1,0 +1,430 @@
+.authenticator {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 2rem;
+  padding-top: 2%;
+  /* overflow-x: hidden; */
+  /* overflow-y: hidden; */
+  /* overflow: hidden; */
+}
+
+.authenticator__title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  display: "flex";
+  flex-direction: "column";
+  align-items: "center";
+  margin-left: 2rem;
+}
+
+.authenticator__qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.authenticator__qr__code {
+  margin-top: 3rem;
+  margin-bottom: 4rem;
+  border-radius: 0.5rem;
+}
+
+.authenticator__description {
+  font-size: 1rem;
+  font-weight: 800;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #9b9b9b;
+}
+
+.authenticator__questions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.authenticator__questions__head {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.authenticator__questions__list {
+  font-size: 1.1rem;
+  color: "#9B9B9B";
+  text-align: left;
+  margin-top: 2.5rem;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.authenticator__questions__secret {
+  font-size: 1.2rem;
+  color: "#9B9B9B";
+  text-align: center;
+  margin-top: 2rem;
+  margin-left: 1rem;
+  font-weight: bold;
+}
+
+.authenticator__questions__image {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 4rem;
+  height: 4rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.authenticator__button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  /* margin-top: 2rem; */
+  /* margin-bottom: -5px; */
+}
+
+.authenticator__button__verify {
+  width: 20rem;
+  height: 3.5rem;
+  background-color: #2853c3;
+  border-radius: 0.5rem;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  text-transform: none;
+}
+
+@media screen and (max-width: 1500px) {
+  .authenticator {
+    flex-direction: row;
+    align-items: center;
+    padding: 0 1rem;
+  }
+
+  .authenticator__title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: "flex";
+    flex-direction: "column";
+    align-items: "center";
+    margin-left: 4rem;
+    margin-top: -4rem;
+  }
+
+  .authenticator__qr {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .authenticator__qr__code {
+    margin-top: 3rem;
+    margin-bottom: 4rem;
+    border-radius: 0.5rem;
+  }
+  .authenticator__description {
+    margin-top: 2rem;
+  }
+
+  .authenticator__questions {
+    margin-top: 2rem;
+  }
+
+  .authenticator__questions__list {
+    margin-top: 1rem;
+  }
+
+  .authenticator__questions__secret {
+    margin-top: 1rem;
+  }
+
+  .authenticator__questions__image {
+    margin-top: 1rem;
+  }
+
+  .authenticator__button {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+}
+
+@media screen and (max-width: 1400px) {
+  .authenticator {
+    flex-direction: row;
+    align-items: center;
+    padding: 0 1rem;
+  }
+
+  .authenticator__title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: "flex";
+    flex-direction: "column";
+    align-items: "center";
+    margin-left: 4rem;
+    margin-top: -9rem;
+  }
+}
+@media screen and (max-width: 1300px) {
+  .authenticator {
+    flex-direction: row;
+    align-items: center;
+    padding: 0 1rem;
+  }
+
+  .authenticator__title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: "flex";
+    flex-direction: "column";
+    align-items: "center";
+    margin-left: 4rem;
+    margin-top: -15rem;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .authenticator {
+    flex-direction: column;
+    align-items: center;
+  }
+  .authenticator__title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: "flex";
+    flex-direction: "column";
+    align-items: "center";
+    margin-left: -1rem;
+    text-align: center;
+    margin-top: 2rem;
+  }
+  .authenticator__qr {
+    margin-top: 2rem;
+  }
+  .authenticator__description {
+    margin-top: 2rem;
+  }
+  .authenticator__questions {
+    margin-top: 2rem;
+  }
+  .authenticator__questions__head {
+    margin-top: 2rem;
+  }
+  .authenticator__questions__list {
+    margin-top: 2rem;
+  }
+  .authenticator__questions__secret {
+    margin-top: 2rem;
+  }
+  .authenticator__questions__image {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 4rem;
+    height: 4rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    margin-left: -2rem;
+  }
+  .authenticator__button__verify {
+    width: 15rem;
+    height: 3rem;
+    font-size: 1.2rem;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .authenticator {
+    flex-direction: column;
+    align-items: center;
+  }
+  .authenticator__title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: "flex";
+    flex-direction: "column";
+    align-items: "center";
+    margin-left: -1rem;
+    text-align: center;
+    margin-top: 2rem;
+  }
+  .authenticator__qr {
+    margin-top: 2rem;
+  }
+  .authenticator__description {
+    margin-top: 2rem;
+  }
+  .authenticator__questions {
+    margin-top: 2rem;
+  }
+  .authenticator__questions__head {
+    margin-top: 2rem;
+  }
+  .authenticator__questions__list {
+    margin-top: 2rem;
+  }
+  .authenticator__questions__secret {
+    margin-top: 2rem;
+  }
+  .authenticator__questions__image {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 4rem;
+    height: 4rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    margin-left: -2rem;
+  }
+  .authenticator__button__verify {
+    width: 15rem;
+    height: 3rem;
+    font-size: 1.2rem;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .authenticator__button__verify {
+    width: 15rem;
+    height: 3rem;
+    font-size: 1rem;
+  }
+  .authenticator__questions__image {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 4rem;
+    height: 4rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    margin-left: -2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .authenticator {
+    flex-direction: column;
+    padding: 0 1rem;
+  }
+  .authenticator__title {
+    font-size: 1.2rem;
+  }
+  .authenticator__description {
+    font-size: 0.8rem;
+  }
+  .authenticator__questions__head {
+    font-size: 1rem;
+  }
+  .authenticator__questions__list {
+    font-size: 0.8rem;
+  }
+  .authenticator__questions__secret {
+    font-size: 1.2rem;
+  }
+  .authenticator__button__verify {
+    width: 15rem;
+    height: 3rem;
+    font-size: 1.2rem;
+  }
+  .authenticator__questions__image {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 4rem;
+    height: 4rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    margin-left: -3rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .authenticator {
+    flex-direction: column;
+    padding: 0 1rem;
+  }
+  .authenticator__title {
+    font-size: 1rem;
+  }
+  .authenticator__description {
+    font-size: 0.8rem;
+  }
+  .authenticator__questions__head {
+    font-size: 1rem;
+  }
+  .authenticator__questions__list {
+    font-size: 0.8rem;
+  }
+  .authenticator__questions__secret {
+    font-size: 1.2rem;
+  }
+  .authenticator__button__verify {
+    width: 13rem;
+    height: 2rem;
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .authenticator {
+    flex-direction: column;
+    padding: 0 1rem;
+  }
+  .authenticator__title {
+    font-size: 0.8rem;
+  }
+  .authenticator__description {
+    font-size: 0.8rem;
+  }
+  .authenticator__questions__head {
+    font-size: 1rem;
+  }
+  .authenticator__questions__list {
+    font-size: 0.8rem;
+  }
+  .authenticator__questions__secret {
+    font-size: 1.2rem;
+  }
+  .authenticator__button__verify {
+    width: 12rem;
+    height: 1.9rem;
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 280px) {
+  .authenticator {
+    flex-direction: column;
+    padding: 0 1rem;
+  }
+  .authenticator__title {
+    font-size: 0.6rem;
+  }
+  .authenticator__description {
+    font-size: 0.8rem;
+  }
+  .authenticator__questions__head {
+    font-size: 1rem;
+  }
+  .authenticator__questions__list {
+    font-size: 0.8rem;
+  }
+  .authenticator__questions__secret {
+    font-size: 1.2rem;
+  }
+  .authenticator__button__verify {
+    width: 11rem;
+    height: 1rem;
+    font-size: 0.9rem;
+  }
+}

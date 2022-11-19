@@ -1,0 +1,150 @@
+.card_heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem;
+    background: #F3F5FD;
+}
+.card_content>div {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 0;
+    border-bottom: 1px solid #dedede;
+    align-items: center;
+}
+.card_content>div:last-of-type{
+    border: none;
+}
+.card.terms-card {
+    padding: 0 !important;
+    width: 49%;
+}
+.form_field input#auto_renew {
+    width: 20px;
+    height: 16px;
+    margin: 0;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+.card_content {
+    padding: 1rem 2rem;
+}
+.terms_page>div>.heading {
+    display: flex;
+    padding: 1rem 0;
+    align-items: center;
+}
+.terms_page {
+    background: #fff;
+    padding: 1rem;
+    margin-top: 0;
+    border-radius: 7px;
+    box-shadow: 0 2px 3px 0 rgb(24 28 32 / 10%);
+    width: 65%;
+}
+.new_term .card {
+    margin: 0;
+}
+.terms_wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+.new_term {
+    width: 34%;
+}
+.form_field {
+    width: 100%;
+    padding: 10px;
+}
+.form_field button {
+    width: 100%;
+}
+.form_field:nth-child(3) input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.form_field:nth-child(3) > div {
+    width: 100%;
+}
+.form_field .inner_field.card {
+    margin: 0;
+    padding: 10px !important;
+    flex-direction: revert;
+    align-items: center;
+    margin-top: 5px;
+}
+.form_field .inner_field.card >label{
+    margin: 0;
+}
+.form_field .inner_field input {
+    margin-right: 8px;
+    width: 20px;
+    height: 20px;
+}
+.form_field select {
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;
+}
+.new_term .card>h3 {
+    margin: 1rem 10px;
+}
+.terms_page>div>.heading>svg {
+    font-size: 45px;
+    margin-right: 10px;
+    background: #7b94f6;
+    padding: 5px;
+    border-radius: 50px;
+    color: #fff;
+}
+select#selectCoin {
+    height: 44px;
+}
+#TermList thead th, #TermList tbody td {
+    text-align: center !important;
+}
+/* #TermList thead th:first-of-type, #TermList tbody td:first-of-type {
+    text-align: left !important;
+} */
+@media (max-width:992px){
+    .terms_wrapper_inner {
+        flex-direction: column;
+    }
+    .card.terms-card {
+        width: 100%;
+        margin: 17px 0 0;
+    }
+    .terms_page {
+        width: 50%;
+    }
+    .new_term {
+        width: 49%;
+    }
+    section.DashboardPage>.terms_wrapper {
+        margin-top: 11px;
+    }
+    
+}
+@media (max-width:768px){
+    .terms_wrapper {
+        flex-direction: column;
+    }
+    .terms_page , .new_term{
+        width: 100%;
+    }
+    .new_term {
+        margin-top: 12px;
+    }
+}
+@media (max-width:420px){
+    .form_field .inner_field.card {
+        justify-content: center;
+        flex-direction: column;
+    }
+    .card_heading {
+        padding: 2rem 1rem;
+    }
+}
